@@ -1,0 +1,279 @@
+\documentclass[12pt, a4paper]{article}
+\title{Solução Lista 01 - Divisão e Conquista - CANA 2025.1}
+\author{Cornélio A. de S.}
+\date{Maio 2025}
+
+\usepackage[portuguese]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{dirtytalk}
+\usepackage{listings}
+
+\usepackage{geometry}
+\geometry{top=2cm, left=2cm, right=2cm}
+
+\lstset{
+  frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  % belowskip=3mm,
+  showstringspaces=false,
+  % columns=flexible,
+  basicstyle={\small\ttfamily},
+  % numbers=none,
+  % numberstyle=\tiny\color{gray},
+  % keywordstyle=\color{blue},
+  % commentstyle=\color{dkgreen},
+  % stringstyle=\color{mauve},
+  % breaklines=true,
+  % breakatwhitespace=true,
+  tabsize=4
+}
+
+\begin{document}
+
+
+
+
+\maketitle
+
+
+
+
+\section*{Q1}
+
+Podemos refatorar a soma $1+c+c^2+...+c^n$ usando a fórmula da soma dos $n+1$ primeiros termos de uma P.G.:
+
+\[ g(n) = 1+c+c^2+...+c^n = \frac{1-c^{n+1}}{1-c} \]
+
+Agora temos que analisar o crescimento assintótico de $g(n)$. Lembrando que para provar que $f(n)=\Theta(g(n))$ precisamos provar que $f(n)=\Omega(g(n))$ e $f(n)=O(g(n))$.
+
+\subsection*{(a) $c<1$}
+
+Para provar $g(n) = O(1)$ quando $c<1$, precisamos achar constantes $k$ e $n_0$ de modo que:
+
+\[ 0 \leq k \cdot g(n) \leq 1 \quad \forall \quad n \geq n_0 \]
+
+Para tal, podemos escolher $k=1-c$, de modo que $k \cdot g(n) = 1-c^{n+1}$ que é $< 1$ para valores de $n \geq 0$ (escolher $n_0 = 0$).
+
+Agora, para provar $g(n) = \Omega(1)$, precisamos achar outras duas constantes $k^{'}$ e $n^{'}_{0}$ de modo que:
+
+\[ 0 \leq 1 \leq k^{'} \cdot g(n) \quad \forall \quad n \geq n^{'}_{0} \]
+
+Ou seja:
+
+\[ k^{'} \geq g(n)^{-1} = \frac{1-c}{1-c^{n+1}} \]
+
+Para $c<1$ temos $c^b \leq c$ quando $b>0$ o que implica em $1-c \leq 1-c^b$. Portanto $\frac{1-c}{1-c^{n+1}} \leq 1$ quando $n \geq 0$. Dessa forma, podemos escolher qualquer valor de $k^{'} \geq 1$ e escolher $n^{'}_{0} \geq 0$ para provar $g(n) = O(1)$.
+
+
+Dessa forma, $g(n)=\Theta(1)$ quando $c < 1$. $\blacksquare$
+
+\subsection*{(b) $c=1$}
+
+Quando $c=1$ ficamos com $g(n)=1+1+...+1=n+1=\Theta(n)$. $\blacksquare$
+
+\subsection*{(c) $c>1$}
+
+Primeiramente vamos mostrar que $g(n)=\frac{1-c^{n+1}}{1-c}=O(c^n)$:
+
+\[ 0 \leq k \cdot \frac{1-c^{n+1}}{1-c} \leq c^n \quad \forall \quad n \geq n_0 \]
+\[ \Rightarrow 0 \leq k \leq \frac{c^n \cdot (1-c)}{1-c^{n+1}} \]
+
+Precisamos escolher um valor de $k$ que mantenha essa inequação verdadeira quando $n$ cresce idefinidamente:
+
+\[
+k \leq
+\lim_{n \to \infty}
+\frac{c^n \cdot (1-c)}{1-c^{n+1}}
+=\lim_{n \to \infty}
+\frac{c^n \cdot (1-c)}{c^n \cdot (\frac{1}{c^n} - c)}
+= \frac{c-1}{c}
+\]
+
+Escolhendo $k=(c-1)/c$:
+
+\[
+0
+\leq k \cdot \frac{1-c^{n+1}}{1-c}
+=\frac{c-1}{c} \cdot \frac{1-c^{n+1}}{1-c}
+=\frac{c^{n+1}-1}{c}
+=c^n - \frac{1}{c}
+\leq c^n \quad \forall \quad n \geq n_0 = 0
+\]
+
+Mostremos agora que $g(n)=\Omega(c^n)$, ou seja:
+
+\[ 0 \leq c^n \leq k \cdot \frac{1-c^{n+1}}{1-c} \quad \forall \quad n \geq n_0 \]
+
+Nossa inequação passa a ser:
+
+\[ k \geq \frac{c^n \cdot (1-c)}{1-c^{n+1}} \]
+
+Quando $n$ cresce indefinidamente:
+
+\[ k \geq \frac{c-1}{c} \]
+
+Podemos simplesmente escolher $k=c-1$:
+
+\[
+0
+\leq c^n
+\leq k \cdot \frac{1-c^{n+1}}{1-c}
+=(c-1) \cdot \frac{1-c^{n+1}}{1-c}
+=c^{n+1}-1
+\]
+
+Obviamente a prova acima supõem que $c^{n+1}-1 \geq c^n$, o que é obvio para valores de $c >> 1$ e $n>0$. Porém, para valores de $c$ muito proximos de $1$ (mas ainda $c>1$), precisamos determinar com cuidado um valor para $n_0$. Mas, para qualquer valor de $c>1$, podemos determinar um valor de $n_0$ suficientemente grande que faça $c^{n+1}-1 \geq c^n$ verdadeiro. $\blacksquare$
+
+
+
+
+\section*{Q2}
+
+\subsection*{(a)}
+
+Os primeiros termos da sequência de Fibonacci são: [0, 1, 1, 2, 3, 5, 8, 13...]. Ou seja $F_6 = 8$ e $F_7 = 13$. Ambos serão o nossa caso base:
+
+\[ F_6 = 8 \geq 2^{0.5\times6} = 2^{6/2} = 2^3 = 8 \quad \textrm{e} \]
+\[ F_7 = 13 \geq 2^{7/2} \approx 11.3 \]
+
+Provado o caso base, a nossa hipótese indutiva é que $F_n \geq 2^{n/2}$ e $F_{n-1} \geq 2^{(n-1)/2}$. O passo indutivo consiste em provar $F_{n+1} \geq 2^{(n+1)/2}$ a partir dessa hipótese:
+
+\[ F_{n+1} = F_n + F_{n-1} \geq 2^{n/2} + 2^{(n-1)/2} = 2^{n/2} + 2^{(n/2) - (1/2)} \]
+\[ \Rightarrow F_{n+1} \geq 2^{n/2} + \frac{2^{n/2}}{2^{1/2}} = 2^{n/2} \cdot \left( 1 + \frac{1}{\sqrt{2}} \right) \]
+
+Decompondo $2^{(n+1)/2}$ obtemos $2^{n/2} \cdot \sqrt{2}$.
+
+Facilmente verificamos que $1 + \frac{1}{\sqrt{2}} \approx 1.71 > \sqrt{2} \approx 1.41$. Portanto:
+
+\[ F_{n+1} \geq  2^{n/2} \cdot \left( 1 + \frac{1}{\sqrt{2}} \right) \geq 2^{n/2} \cdot \sqrt{2} = 2^{(n+1)/2} \]
+
+O que prova o passo indutivo e consequentemente prova que $F_n \geq 2^{n/2}$ para $n \geq 6$. $\blacksquare$
+
+\subsection*{(b)}
+
+Com base na prova da alternativa (a) acima, temos:
+
+\[ 2^{n/2} \leq F_n < 2^n \]
+
+$F_n < 2^n$ é facilmente verificado.
+
+Pontanto, nosso intervalo de procura é $c \in (\frac{1}{2},1)$, de modo que:
+
+\[ F_n \leq 2^{cn} \]
+
+Usando as mesmas ideias da alternativa anterior, vamos supor que $c$ é conhecido e que queremos provar $F_n \leq 2^{cn}$ usando indução. Vamos deixar o caso base para o fim e considerar logo o passo indutiva: queremos partir de $F_n \leq 2^{cn}$ e $F_{n-1} \leq 2^{c(n-1)}$ (hipótese indutiva) e mostrar que $F_{n+1} \leq 2^{c(n+1)}$. O começo dessa prova parte da decomposição de $F_{n+1}$:
+
+\[ F_{n+1} = F_n + F_{n-1} \leq 2^{cn} + 2^{c(n-1)} = 2^{cn} \cdot \left( 1 + \frac{1}{2^c} \right) \]
+
+Para \say{provar} $F_n \leq 2^{cn}$ a partir da equação acima, temos que mostrar que:
+
+\[ 2^{cn} \cdot \left( 1 + \frac{1}{2^c} \right) \leq 2^{c(n+1)} = 2^{cn} \cdot 2^c \]
+
+Ou seja, provar que:
+
+\[ \left( 1 + \frac{1}{2^c} \right) \leq 2^c \]
+
+Portanto, qualquer valor de $c$ que obdecer a inequação acima (e também for verdade para os casos base $F_0$ e $F_1$) resulta em $F_n \leq 2^{cn}$ por indução. Vemos que $c=1/2$ não obedece, pois $1 + \frac{1}{\sqrt{2}} \approx 1.71 \nleq \sqrt{2} \approx 1.41$. Já sabemos disso, pois provamos na alternativa (a) que $F_n \geq 2^{n/2}$.
+
+Fazendo alguns cálculos (transformar a inequação acima em uma função quadrática $x^2 -x -1 \geq 0$, onde $x=2^c$) achamos que $c=3/4$ obedece a inequação:
+
+\[ \left( 1 + \frac{1}{2^{3/4}} \right) \approx 1.595 \leq 2^{3/4} \approx 1.682 \]
+
+Portanto $c=0.75$ é uma solução que faz $F_n \leq 2^{cn}$, uma vez que segue pela hipótese indutiva e vale para os casos base:
+
+\[ F_0 = 0 \leq 2^{0.75 \cdot 0} = 1 \]
+\[ F_1 = 1 \leq 2^{0.75 \cdot 1} = 2^{0.75} \approx 1.682 \]
+
+$\blacksquare$
+
+\subsection*{(c)}
+
+$F_n = \Omega(2^{cn})$ equivale à:
+
+\[ 0 \leq k \cdot 2^{cn} \leq F_n \]
+
+Podemos simplesmente desconsiderar $k$, pois:
+
+\[ k \cdot 2^{cn} = 2^w \cdot 2^{cn} = 2^{(w + cn)} = 2^{n(\frac{w}{n} + c)} = 2^{c'n} \]
+
+Portanto, queremos achar o maior valor de $c$ em que $2^{cn} \leq F_n$ para todo $n \geq n_0$, semelhante a alternatava (a) (mas mais difícil). A diferença para a alternativa (a) é que estamos trabalhando com notação assintótica, então podemos escolher $n_0$ como qualquer valor finito não negativo (não temos um ponto de partida definido, como o $F_6$ da alternativa (a)).
+
+Vamos esquecer o \say{ponto de partida} por enquanto (que seria o caso base da indução) e focar no passo indutivo: dado como verdade que $F_n \geq 2^{cn}$ e $F_{n-1} \geq 2^{c(n-1)}$, quais valores de $c$ permitem que partamos dessas verdades e provemos $F_{n+1} \geq 2^{c(n+1)}$? Vamos aplicar as mesmas ideias da alternativa (b):
+
+\[ F_{n+1} = F_n + F_{n-1} \geq 2^{cn} + 2^{c(n-1)} = 2^{cn} \cdot \left( 1 + \frac{1}{2^c} \right) \]
+
+Dessa forma, para aplicar o passo de indução, $c$ deve obdecer a seguinte inequação:
+
+\[ F_{n+1} \geq 2^{cn} \cdot \left( 1 + \frac{1}{2^c} \right) \geq 2^{c(n+1)} = 2^{cn} \cdot 2^c \]
+
+Ou seja:
+
+\[ \left( 1 + \frac{1}{2^c} \right) \geq 2^c \quad (\times 2^c) \]
+\[ \Rightarrow 2^c + 1 \geq (2^c)^2 \]
+\[ \Rightarrow x^2 - x - 1 \leq 0 \quad \textrm{onde} \quad x=2^c, c>0, x>1 \]
+
+O maior valor de $x$ que obedece essa inequação é:
+
+\[ x = \frac{1 + \sqrt{5}}{2} = \varphi \approx 1.6180 \]
+
+O que nos dá um valor de $c=\log_{2}{(\frac{1 + \sqrt{5}}{2})} \approx 0.6942$. Ou seja, $c=\log_{2}{(\frac{1 + \sqrt{5}}{2})}$ é o maior valor que permite provamos o passo indutivo a partir da hipótese indutiva:
+
+\[ 2^{cn} = 2^{n \cdot \log_{2}{(\frac{1 + \sqrt{5}}{2})}} = \varphi^{n} \]
+
+Sabe-se que a taxa de crescimento da sequência de Fibonacci se aproxima da taxa de crescimento de $\varphi^n$ (exponencial do número de ouro) para valores de $n$ suficientemente grandes, ou seja, $F_n$ e $\varphi^n$ possuem uma taxa de crescimento assintótico semelhante. Dessa forma, se escolhermos um valor de $c$ suficientemente menor que $\log_2{\varphi}$, a taxa de crescimento da sequência de Fibonacci será ligeiramente maior que a taxa de crescimento de $2^{cn}$, o que implicaria que a partir de algum valor de $n$ suficientemente grande teriamos $F_n \geq 2^{cn}$, que é basicamente dizer que $F_n = \Omega(2^{cn})$.
+
+Por exemplo, se escolhermos $c=0.6$, $2^{0.6 \cdot n}$ supera $F_n$ para valores pequenos de $n$. Por exemplo, $F_6 = 8 < 2^{0.6 \cdot 6} \approx 12.13$. Porém, para valores maiores de $n$, $F_n$ supera $2^{0.6 \cdot n}$. Por exemplo, para $n=100$, temos $F_{100} = 3,736,710,778,780,434,432 > 2^{0.6 \cdot 100} = 2^{60} \approx 1,152,921,504,606,846,976$.
+
+
+
+
+\section*{Q3}
+
+\lstinputlisting[language=Python]{msort.py}
+
+
+
+
+\section*{Q4}
+
+\lstinputlisting[language=Python]{fib.py}
+
+
+
+
+\section*{Q5}
+
+Nós podemos utilizar o algoritmo \textit{merge-sort} para resolver este problema. A modificação que deve ser feita é na rotina \textit{merge}, que é a rotina que faz as operações de ordenação propriamente dita e, consequentemente, é a operação que resolve as inversões presentes na lista a ser ordenada. Na rotina \textit{merge}, temos a \textit{array} da \say{esquerda} sendo comparada com a \textit{array} da \say{direita}. Essas \textit{arrays} recebem esses nomes porque justamente uma está em uma posição à esquerda da outra dentro da \textit{array} completa. Durante o \textit{merge}, quando um elemento da \textit{array} da direita é dito como menor que o elemento da \textit{array} da esquerda, todos os elementos na \textit{array} da esquerda a partir do \say{atual} (o que está sendo comparado) são inversões desse menor elemento. Quando esse elemento da direita é colocado no seu devido lugar, todas essas inversões são resolvidas. A operação \textit{merge} modificada fica:
+
+\lstinputlisting[language=Python]{inversion.py}
+
+Essa modificação adiciona algumas operações de tempo constante (apenas somas), mantendo a operação \textit{merge} como $O(n)$ e o \textit{merge-sort} $O(n\log{n})$.
+
+
+
+
+\section*{Q6}
+
+Para resolver este problema em $O(n\log{n})$ é necessário perceber que, dado que uma \textit{array} de $n$ elementos possui um elemento majoritário, digamos que esse elemento seja $k$, se dividirmos essa \textit{array} em duas partes, pelo menos uma das partes também terá $k$ como elemento majoritário.
+
+Para provar isso, chamemos a \textit{array} de tamanho $n$ de $A_T$ e digamos que ela tenha $k$ como elemento majoritário. Para $k$ ser majoritário, precisamos que $A_T$ tenha pelo menos $\lfloor n/2 \rfloor + 1$ elementos $k$. Vamos dividir $A_T$ em duas \textit{arrays} de tamanhos $d$ e $n-d$, chamemos elas de $A_L$ e $A_R$, respectivamente. A ideia é que $A_L$ tenha o maior número de elementos $k$ possível sem que ele se torne majoritário. Queremos fazer isso para tirar o máximo de elementos $k$ de $A_R$ e tentar fazer com que $k$ não seja elemento majoritário em nenhuma delas.
+
+\textbf{(1º caso) $d$ par e $n$ par:} Com $d$ par, podemos ter $d/2$ elementos $k$ em $A_L$ sem que ele se torne majoritário. Com $n$ também par, temos que ter pelo menos $\lfloor n/2 \rfloor + 1 = n/2 + 1$ elementos $k$ no total. Precisamos considerar apenas o pior caso, onde temos exatamente $n/2 + 1$ elementos $k$ em $A_T$. Dessa forma, o número máximo de elementos $k$ em $A_R$ sem que ele se torne majoritário é $(n-d)/2$, mas nos temos $n/2 + 1 - d/2=(n-d)/2 + 1$. Portanto, para $d$ e $n$ par, $A_R$ obrigatoriamente tem $k$ como elemento majoritário.
+
+\textbf{(2º caso) $d$ par e $n$ ímpar:} Ainda temos o limite de $d/2$ elementos $k$ em $A_L$ e agora temos $\lfloor n/2 \rfloor + 1 = (n+1)/2$ elementos $k$ no total. O número máximo de elementos $k$ em $A_R$ sem que ele se torne majoritário é $(n-d-1)/2$, porém nos temos $(n+1)/2 - d/2 = (n-d+1)/2$, o que faz de $k$ um elemento majoritário de $A_R$.
+
+Para $d$ ímpar a prova não muda basicamente nada. $\blacksquare$
+
+Dessa forma, temos o algoritmo:
+
+\lstinputlisting[language=Python]{majority.py}
+
+A função \textit{get-majority} realiza um número constante de operações simples (complexidade $O(1)$), dividindo o problema em dois subproblemas semelhantes, mas com metade do tamanho. Os resultados desses subproblemas são depois mesclados usando a função \textit{check-majority}, que possui complexidade $O(n)$ e que utiliza apenas comparações de igualdade. A equação de recurssão é:
+
+\[ T(n) = 2 \cdot T(n/2) + O(n) \]
+
+Resolvendo a recurssão usando o Teorema Mestre chegamos numa complexidade $O(n\log{n})$.
+
+\end{document}
