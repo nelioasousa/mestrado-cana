@@ -1,2 +1,4 @@
 livros/
 __pycache__/
+venv/
+.venv/
