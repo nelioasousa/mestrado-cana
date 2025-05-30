@@ -1,5 +1,7 @@
 """Computes the majority element of an array."""
 
+import sys
+
 def check_majority(arr, lft_candidate, rgt_candidate):
     lft_count = 0
     rgt_count = 0
@@ -26,19 +28,22 @@ def get_majority(arr):
     rgt_candidate = get_majority(arr[mid:])
     return check_majority(arr, lft_candidate, rgt_candidate)
 
-if __name__ == "__main__":
-    import sys
+def main():
     if len(sys.argv) != 2:
         print("Example usage: python majority.py 10,4,10,7,10")
-        sys.exit(1)
+        return 1
     try:
         arr = [int(i) for i in sys.argv[1].split(",")]
     except ValueError:
         print("Use only base 10 integers!")
         print("Example usage: python majority.py 10,4,10,7,10")
-        sys.exit(2)
+        return 2
     majority = get_majority(arr)
     if majority is None:
         print("There's no majority.")
     else:
         print("Majority:", majority)
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())

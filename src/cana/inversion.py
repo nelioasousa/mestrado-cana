@@ -1,5 +1,6 @@
 """Merge sort with inversions counter."""
 
+import sys
 from msort import merge_sort
 
 num_inversions = 0
@@ -37,11 +38,10 @@ def inv_merge(arr, i, k, j):
 		arr[ptr:j+1] = cp[lft_idx:stop[0]+1]
 	return arr
 
-if __name__ == "__main__":
-	import sys
+def main():
 	if len(sys.argv) != 4:
 		print("Example usage: python msort.py 45,87,42,50 1 3")
-		sys.exit(1)
+		return 1
 	try:
 		arr = [int(i) for i in sys.argv[1].split(",")]
 		i = int(sys.argv[2])
@@ -49,10 +49,14 @@ if __name__ == "__main__":
 	except ValueError:
 		print("Use only base 10 integers!")
 		print("Example usage: python msort.py 45,87,42,50 1 3")
-		sys.exit(2)
+		return 2
 	if not 0 <= i <= j < len(arr):
 		print("Bad 0-based indexing!")
 		print("Example usage: python msort.py 45,87,42,50 1 3")
-		sys.exit(4)
+		return 4
 	print(merge_sort(arr, i, j, merge_routine=inv_merge))
 	print("Number of inversions:", num_inversions)
+	return 0
+
+if __name__ == "__main__":
+	sys.exit(main())

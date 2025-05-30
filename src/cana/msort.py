@@ -1,5 +1,7 @@
 """Merge sort."""
 
+import sys
+
 def merge(arr, i, k, j):
 	"""
 	Inplace merge of ordered arrays 'arr[i:k+1]' and
@@ -41,11 +43,10 @@ def merge_sort(arr, i, j, merge_routine=merge):
 	merge_routine(arr, i, mid, j)
 	return arr
 
-if __name__ == "__main__":
-	import sys
+def main():
 	if len(sys.argv) != 4:
 		print("Example usage: python msort.py 45,87,42,50 1 3")
-		sys.exit(1)
+		return 1
 	try:
 		arr = [int(i) for i in sys.argv[1].split(",")]
 		i = int(sys.argv[2])
@@ -53,9 +54,13 @@ if __name__ == "__main__":
 	except ValueError:
 		print("Use only base 10 integers!")
 		print("Example usage: python msort.py 45,87,42,50 1 3")
-		sys.exit(2)
+		return 2
 	if not 0 <= i <= j < len(arr):
 		print("Bad 0-based indexing!")
 		print("Example usage: python msort.py 45,87,42,50 1 3")
-		sys.exit(4)
+		return 4
 	print(merge_sort(arr, i, j))
+	return 0
+
+if __name__ == "__main__":
+	sys.exit(main())

@@ -1,5 +1,6 @@
 """Fibonacci sequence using matrix multiplication."""
 
+import sys
 import numpy as np
 from math import log2
 
@@ -32,16 +33,19 @@ def fib(n):
     # '@' as a dot product
     return int(fib_pow(n)[0] @ [0, 1])
 
-if __name__ == "__main__":
-    import sys
+def main():
     if len(sys.argv) != 2:
         print("Usage: python fib.py <base 10 integer>")
-        sys.exit(1)
+        return 1
     try:
         n = int(sys.argv[1])
     except ValueError:
         print("Usage: python fib.py <base 10 integer>")
-        sys.exit(2)
+        return 2
     print(f"Fib_{n} = {fib(n)}")
     print(f"> {num_muls} matrix multiplications total")
     if n: print(f"> log2({n}) ~= {log2(n):.3f}")
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())

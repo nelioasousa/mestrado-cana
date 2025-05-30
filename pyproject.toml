@@ -19,6 +19,12 @@ dev = ["pytest", "pre-commit", "ruff"]
 [project.urls]
 Source = "https://github.com/nelioasousa/mestrado-cana"
 
+[project.scripts]
+fib = "cana.fib:main"
+msort = "cana.msort:main"
+inv-msort = "cana.inversion:main"
+majority = "cana.majority:main"
+
 
 [tool.setuptools.packages.find]
 where = ["src"]
