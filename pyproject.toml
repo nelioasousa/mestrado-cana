@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "cana"
+version = "0.0.1"
+description = "Projeto Python para a disciplina de Construção e Análise de Algoritmos (CANA)"
+authors = [{name = "nelioasousa"}]
+
+readme = {file = "README.md", content-type = "text/markdown"}
+
+[project.optional-dependencies]
+dev = ["pytest", "pre-commit", "ruff"]
+
+[project.urls]
+Source = "https://github.com/nelioasousa/mestrado-cana"
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 90
