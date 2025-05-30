@@ -231,14 +231,14 @@ Por exemplo, se escolhermos $c=0.6$, $2^{0.6 \cdot n}$ supera $F_n$ para valores
 
 \section*{Q3}
 
-\lstinputlisting[language=Python]{msort.py}
+\lstinputlisting[language=Python]{../../src/cana/msort.py}
 
 
 
 
 \section*{Q4}
 
-\lstinputlisting[language=Python]{fib.py}
+\lstinputlisting[language=Python]{../../src/cana/fib.py}
 
 
 
@@ -247,7 +247,7 @@ Por exemplo, se escolhermos $c=0.6$, $2^{0.6 \cdot n}$ supera $F_n$ para valores
 
 Nós podemos utilizar o algoritmo \textit{merge-sort} para resolver este problema. A modificação que deve ser feita é na rotina \textit{merge}, que é a rotina que faz as operações de ordenação propriamente dita e, consequentemente, é a operação que resolve as inversões presentes na lista a ser ordenada. Na rotina \textit{merge}, temos a \textit{array} da \say{esquerda} sendo comparada com a \textit{array} da \say{direita}. Essas \textit{arrays} recebem esses nomes porque justamente uma está em uma posição à esquerda da outra dentro da \textit{array} completa. Durante o \textit{merge}, quando um elemento da \textit{array} da direita é dito como menor que o elemento da \textit{array} da esquerda, todos os elementos na \textit{array} da esquerda a partir do \say{atual} (o que está sendo comparado) são inversões desse menor elemento. Quando esse elemento da direita é colocado no seu devido lugar, todas essas inversões são resolvidas. A operação \textit{merge} modificada fica:
 
-\lstinputlisting[language=Python]{inversion.py}
+\lstinputlisting[language=Python]{../../src/cana/inversion.py}
 
 Essa modificação adiciona algumas operações de tempo constante (apenas somas), mantendo a operação \textit{merge} como $O(n)$ e o \textit{merge-sort} $O(n\log{n})$.
 
@@ -268,7 +268,7 @@ Para $d$ ímpar a prova não muda basicamente nada. $\blacksquare$
 
 Dessa forma, temos o algoritmo:
 
-\lstinputlisting[language=Python]{majority.py}
+\lstinputlisting[language=Python]{../../src/cana/majority.py}
 
 A função \textit{get-majority} realiza um número constante de operações simples (complexidade $O(1)$), dividindo o problema em dois subproblemas semelhantes, mas com metade do tamanho. Os resultados desses subproblemas são depois mesclados usando a função \textit{check-majority}, que possui complexidade $O(n)$ e que utiliza apenas comparações de igualdade. A equação de recurssão é:
 
