@@ -2,3 +2,7 @@ livros/
 __pycache__/
 venv/
 .venv/
+# Texmaker
+*.synctex.gz
+*.aux
+*.log
