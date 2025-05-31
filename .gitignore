@@ -6,3 +6,5 @@ venv/
 *.synctex.gz
 *.aux
 *.log
+# setuptools
+*.egg-info/
