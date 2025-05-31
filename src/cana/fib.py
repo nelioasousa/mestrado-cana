@@ -6,13 +6,13 @@ from math import log2
 
 num_muls = 0
 
-def matrix_mul(A, B):
+def matrix_mul_with_counter(A, B):
     """Matrix multiplication with a counter."""
     global num_muls
     num_muls += 1
     return A @ B
 
-def fib_pow(n):
+def fib_matrix_pow(n):
     """Raise 'A' to a power of 'n'."""
     A = np.array([[0, 1], [1, 1]], dtype="uint64")
     if n == 1:
@@ -20,18 +20,18 @@ def fib_pow(n):
     if n < 1:
         raise ValueError("'n' must be positive")
     is_odd = bool(n % 2)
-    half = fib_pow(n // 2)
+    half = fib_matrix_pow(n // 2)
     if is_odd:
-        return matrix_mul(matrix_mul(half, half), A)
+        return matrix_mul_with_counter(matrix_mul_with_counter(half, half), A)
     else:
-        return matrix_mul(half, half)
+        return matrix_mul_with_counter(half, half)
 
 def fib(n):
     """Calculate the 'n'-th Fibonacci number."""
     if n == 0:
         return 0
     # '@' as a dot product
-    return int(fib_pow(n)[0] @ [0, 1])
+    return int(fib_matrix_pow(n)[0] @ [0, 1])
 
 def main():
     if len(sys.argv) != 2:
