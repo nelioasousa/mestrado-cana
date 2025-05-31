@@ -1,7 +1,7 @@
 """Merge sort with inversions counter."""
 
 import sys
-from msort import merge_sort
+from cana.msort import merge_sort
 
 num_inversions = 0
 
