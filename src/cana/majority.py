@@ -2,6 +2,7 @@
 
 import sys
 
+
 def check_majority(arr, lft_candidate, rgt_candidate):
     lft_count = 0
     rgt_count = 0
@@ -18,6 +19,7 @@ def check_majority(arr, lft_candidate, rgt_candidate):
     else:
         return None
 
+
 def get_majority(arr):
     if not arr:
         raise ValueError("'arr' can't be empty.")
@@ -27,6 +29,7 @@ def get_majority(arr):
     lft_candidate = get_majority(arr[:mid])
     rgt_candidate = get_majority(arr[mid:])
     return check_majority(arr, lft_candidate, rgt_candidate)
+
 
 def main():
     if len(sys.argv) != 2:
@@ -44,6 +47,7 @@ def main():
     else:
         print("Majority:", majority)
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

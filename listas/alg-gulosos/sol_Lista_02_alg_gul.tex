@@ -56,7 +56,7 @@ Vamos provar a propriedade acima. Digamos que os símbolos a serem codificados s
 
 Dado que $1/2^k$ é a menor probabilidade dentre os símbolos do alfabeto, podemos ter no máximo $2^k$ símbolos com probabilidade $1/2^k$, uma vez que $2^k \cdot 1/2^k = 1$. Se o alfabeto tiver menos que $2^k$ símbolos ($n < 2^k$), podemos somar as probabilidades $1/2^k$ entre si de modo a reduzir o número de probabilidades e manter o somatória igual a $1$. Porém, pra obtermos apenas símbolos com probabilidades da forma $1/2^{k_i}$, temos que obrigatoriamente combinar duas probabilidades iguais:
 
-\[ \frac{1}{2^j} + \frac{1}{2^j} = 2 \cdot \frac{1}{2^j} = \frac{1}{2^{j-1}} \] 
+\[ \frac{1}{2^j} + \frac{1}{2^j} = 2 \cdot \frac{1}{2^j} = \frac{1}{2^{j-1}} \]
 
 Dentre as $2^k$ probabilidades iguais à $1/2^k$, pelo menos uma não pode ser somada as outras, uma vez que assumimos que pelo menos o símbolo $a_1$ tem probabilidade igual à $1/2^k$. Nos resta então $2^k - 1$ probabilidades iguais à $1/2^k$ para serem combinadas entre si duas à duas de modo a obtermos probabilidades da forma $1/2^{k-1}$. Como $2^k - 1$ é ímpar, irá sobrar pelo menos uma probabilidade $1/2^k$ que não pode ser combinada, fazendo com que mais um símbolo tenha probabilidade $1/2^k$, neste caso o símbol $a_2$ que é o segundo com menor probabilidade dentre os símbolos do alfabeto.
 
@@ -68,7 +68,7 @@ Agora, vamos provar por indução que os símbolos de profundidade $k$ possuem p
 
 \textbf{HIPÓTESE INDUTIVA:} Para $k \in \{1, 2, \ldots, h \}$ os nós de profundidade $k$ possuem probabilidade $1/2^k$ e vice-versa.
 
-\textbf{PASSO INDUTIVO:} Dada como verdadeira a hipótese indutiva, temos que provar que os símbolos de profundidade $h+1$ possuem probabilidade $1/2^{h+1}$. Para um símbolo ter profundidade $h+1$ ele tem que ser filho de um nó de profundidade $h$. Nós de profundidade $h$, pela hipótese indutiva, tem probabilidade $1/2^h$ e seus filhos, segundo a propriedade do parentesco, devem ter probabilidades iguais. Portanto, nós de profundidade $h+1$ devem ter probabilidade $1/2^{h} \div 2 = 1/2^{h+1}$. Ademais, não é possível que símbolos com probabilidade $1/2^{h+1}$ tenham profundidade maior que $h+1$, uma vez que todo nó abaixo da profundidade $h+1$ deve ter probabilidade menor que $1/2^{h+1}$. 
+\textbf{PASSO INDUTIVO:} Dada como verdadeira a hipótese indutiva, temos que provar que os símbolos de profundidade $h+1$ possuem probabilidade $1/2^{h+1}$. Para um símbolo ter profundidade $h+1$ ele tem que ser filho de um nó de profundidade $h$. Nós de profundidade $h$, pela hipótese indutiva, tem probabilidade $1/2^h$ e seus filhos, segundo a propriedade do parentesco, devem ter probabilidades iguais. Portanto, nós de profundidade $h+1$ devem ter probabilidade $1/2^{h} \div 2 = 1/2^{h+1}$. Ademais, não é possível que símbolos com probabilidade $1/2^{h+1}$ tenham profundidade maior que $h+1$, uma vez que todo nó abaixo da profundidade $h+1$ deve ter probabilidade menor que $1/2^{h+1}$.
 
 Portanto, segue por indução que símbolos cuja probabilidade são da forma $1/2^{k_i}$ possuem profundidade $k$ na árvore de codificação mínima de Huffman se e somente se tiverem probabilidade $1/2^k$. Essa propriedade é equivalente a equação de tamanho da codificação:
 
@@ -81,7 +81,7 @@ Portanto, segue por indução que símbolos cuja probabilidade são da forma $1/
 
 Para um símbolo ter uma codificação de comprimento $1$, este símbolo deve \say{sobreviver} até a última combinação de símbolos que forma a raíz da árvore. Consideremos que os símbolos em ordem crescente de frequência sejam $\{a_1, a_2, \ldots, a_{n-1}, a_n\}$, onde $F(a_i)=f_i$ é a frequência do i-ésimo símbolo $a_i$ e tendo $f_n > 2/5$. Podemos ter no máximo 2 símbolos com frequência maior ou igual a $2/5$, então, se $f_{n-1}$ também for maior (ou igual a) que $2/5$, temos que:
 
-\[ \left( \sum_{i=0}^{n-2} f_i \right) < 1/5\] 
+\[ \left( \sum_{i=0}^{n-2} f_i \right) < 1/5\]
 
 Dessa forma, o algoritmo de Huffman irá combinar todos os símbolos do índice $1$ até o índice $n-2$ em um \say{novo} símbolo, vamos chamá-lo de $S$, cuja frequência é $F(S) = \sum_{i=0}^{n-2} f_i < 1/5$. Dessa forma, nos restará 3 símbolos $S$, $a_{n-1}$ e $a_n$, com frequências $F(S) < f_{n-1} \leq f_n$. O restante do processo de formação da árvore mínima irá combinar $S$ e $a_{n-1}$ e o resultado será combinado com $a_n$, fazendo com que $a_n$ tenha uma codificação de comprimento unitário.
 

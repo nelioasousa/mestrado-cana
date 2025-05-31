@@ -6,11 +6,13 @@ from math import log2
 
 num_muls = 0
 
+
 def matrix_mul_with_counter(A, B):
     """Matrix multiplication with a counter."""
     global num_muls
     num_muls += 1
     return A @ B
+
 
 def fib_matrix_pow(n):
     """Raise 'A' to a power of 'n'."""
@@ -26,12 +28,14 @@ def fib_matrix_pow(n):
     else:
         return matrix_mul_with_counter(half, half)
 
+
 def fib(n):
     """Calculate the 'n'-th Fibonacci number."""
     if n == 0:
         return 0
     # '@' as a dot product
     return int(fib_matrix_pow(n)[0] @ [0, 1])
+
 
 def main():
     if len(sys.argv) != 2:
@@ -44,8 +48,10 @@ def main():
         return 2
     print(f"Fib_{n} = {fib(n)}")
     print(f"> {num_muls} matrix multiplications total")
-    if n: print(f"> log2({n}) ~= {log2(n):.3f}")
+    if n:
+        print(f"> log2({n}) ~= {log2(n):.3f}")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())
