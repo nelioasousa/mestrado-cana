@@ -34,4 +34,4 @@ namespaces = false
 testpaths = ["tests"]
 
 [tool.ruff]
-line-length = 90
+line-length = 80
