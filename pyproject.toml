@@ -9,7 +9,7 @@ version = "0.0.1"
 description = "Projeto Python para a disciplina de Construção e Análise de Algoritmos (CANA)"
 authors = [{name = "nelioasousa"}]
 
-dependencies = ["numpy"]
+dependencies = ["numpy", "PyYAML"]
 
 readme = {file = "README.md", content-type = "text/markdown"}
 
