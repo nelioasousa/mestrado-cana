@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "cana"
 version = "0.0.1"
+requires-python = ">=3.12"
 description = "Projeto Python para a disciplina de Construção e Análise de Algoritmos (CANA)"
 authors = [{name = "nelioasousa"}]
 
