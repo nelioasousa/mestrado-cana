@@ -4,7 +4,7 @@ from collections.abc import Hashable, Collection, Callable
 import yaml
 
 
-type Edge = tuple[Vertex, Vertex, tuple]
+type Edge = tuple[Vertex, Vertex, float]
 type KeyParser = Callable[[str], Hashable]
 type ValueParser = Callable[[str], object]
 
@@ -20,8 +20,7 @@ class Vertex:
     def __eq__(self, value):
         if isinstance(value, type(self)):
             return self.key == value.key
-        else:
-            return False
+        return False
 
 
 class WeightedUndirectedGraph:
@@ -29,7 +28,7 @@ class WeightedUndirectedGraph:
 
     def __init__(self, vertices: Collection[Vertex], edges: Collection[Edge]):
         self.edges = list(edges)
-        # dict comprehension needed so each list() is unique for each vertice
+        # comprehension needed so each list() is unique for each vertice
         self.adjacency = {v: list() for v in vertices}
         for lft, rgt, weigth in edges:
             self.adjacency.setdefault(lft, list()).append((rgt, weigth))
@@ -46,13 +45,14 @@ class WeightedUndirectedGraph:
         with open(file_path, mode="r") as f:
             gf = yaml.load(f, Loader=yaml.BaseLoader)
         vertices = {
-            k: Vertex(key_parser(k), value_parser(v))
+            k: Vertex(key=key_parser(k), value=value_parser(v))
             for k, v in gf["vertices"].items()
         }
         edges = []
-        for edge in gf["edges"]:
-            lft, rgt, weight = edge.strip().split("::")
-            edges.append((vertices[lft], vertices[rgt], float(weight)))
+        for lft, rgt, w in zip(
+            gf["edges"]["from"], gf["edges"]["to"], gf["edges"]["weight"]
+        ):
+            edges.append((vertices[lft], vertices[rgt], float(w)))
         return cls(list(vertices.values()), edges)
 
     def insert_edge(self, edge: Edge) -> None:
@@ -68,6 +68,7 @@ class WeightedUndirectedGraph:
             self.adjacency.setdefault(lft, list()).append((rgt, weigth))
             self.adjacency.setdefault(rgt, list()).append((lft, weigth))
         self.edges.extend(edges)
+        return None
 
     def insert_vertex(self, vertex: Vertex) -> None:
         """Insert a vertex into the graph."""
@@ -79,6 +80,7 @@ class WeightedUndirectedGraph:
         self.adjacency.update(
             {v: list() for v in vertices if v not in self.adjacency}
         )
+        return None
 
     def get_vertices(self) -> list[Vertex]:
         """Return all the vertices in the graph."""
