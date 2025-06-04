@@ -31,7 +31,7 @@ def get_majority(arr):
     return check_majority(arr, lft_candidate, rgt_candidate)
 
 
-def main():
+def _main():
     if len(sys.argv) != 2:
         print("Example usage: python majority.py 10,4,10,7,10")
         return 1
@@ -50,4 +50,4 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(_main())

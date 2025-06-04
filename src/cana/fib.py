@@ -37,7 +37,7 @@ def fib(n):
     return int(fib_matrix_pow(n)[0] @ [0, 1])
 
 
-def main():
+def _main():
     if len(sys.argv) != 2:
         print("Usage: python fib.py <base 10 integer>")
         return 1
@@ -54,4 +54,4 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(_main())

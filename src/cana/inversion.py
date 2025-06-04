@@ -40,7 +40,7 @@ def inv_merge(arr, i, k, j):
     return arr
 
 
-def main():
+def _main():
     if len(sys.argv) != 4:
         print("Example usage: python msort.py 45,87,42,50 1 3")
         return 1
@@ -62,4 +62,4 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(_main())
