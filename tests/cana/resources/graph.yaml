@@ -1,0 +1,44 @@
+vertices:
+  a: 1
+  b: 2
+  c: 3
+  d: 4
+  e: 5
+  f: 6
+
+edges:
+  a:
+    to:
+      - b
+      - c
+      - d
+    weight:
+      - 5
+      - 6
+      - 4
+  b:
+    to:
+      - c
+      - d
+    weight:
+      - 1
+      - 2
+  c:
+    to:
+      - d
+      - e
+      - f
+    weight:
+      - 2
+      - 5
+      - 3
+  d:
+    to:
+      - f
+    weight:
+      - 4
+  e:
+    to:
+      - f
+    weight:
+      - 4
