@@ -1,15 +1,13 @@
 """Determine the minimum weight feedback edges."""
 
-from cana.graphs import WeightedUndirectedGraph
-from typing import Optional
+from cana.graphs import Edge, WeightedUndirectedGraph
+from typing import Optional, NamedTuple
 
 
-class RootedInTreeNode:
-    def __init__(
-        self, parent: Optional["RootedInTreeNode"] = None, rank: int = 0
-    ):
-        self.parent = parent
-        self.rank = rank
+class RootedInTreeNode(NamedTuple):
+    value: object
+    parent: Optional["RootedInTreeNode"] = None
+    rank: int = 0
 
     def find(self, collapse: bool = False) -> "RootedInTreeNode":
         if collapse and self.parent is not None:
@@ -34,28 +32,31 @@ class RootedInTreeNode:
         return self_root
 
 
-def minimum_spanning_tree(
-    graph: WeightedUndirectedGraph, reverse: bool = False
-):
-    nodes = {v: RootedInTreeNode() for v in graph.get_vertices()}
+def min_spanning_tree(
+    graph: WeightedUndirectedGraph, max_spanning_tree: bool = False
+) -> tuple[list[Edge], list[Edge]] | None:
+    nodes = {v: RootedInTreeNode(v) for v in graph.get_vertices()}
     edges = graph.edges
-    edges.sort(key=(lambda e: e[2]), reverse=reverse)
+    edges.sort(key=(lambda e: e[2]), reverse=max_spanning_tree)
     mst_edges = []
-    for edge in edges:
+    out_edges = []
+    for i, edge in enumerate(edges):
         lft_root = nodes[edge[0]].find()
         rgt_root = nodes[edge[1]].find()
         if lft_root == rgt_root:
+            out_edges.append(edge)
             continue
         mst_edges.append(edge)
         if len(mst_edges) == len(nodes) - 1:
-            break
-    if len(mst_edges) != len(nodes) - 1:
-        return None
-    return WeightedUndirectedGraph(vertices=nodes.keys(), edges=mst_edges)
+            out_edges.extend(edges[i + 1 :])
+            return mst_edges, out_edges
+    return None
 
 
-def get_minimum_feedback_edges(
-    graph: WeightedUndirectedGraph, reverse: bool = False
+def min_feedback_edges(
+    graph: WeightedUndirectedGraph, max_feedback_edges: bool = False
 ):
-    max_sp_tree = minimum_spanning_tree(graph, reverse=(not reverse))
-    return frozenset(graph.edges) - frozenset(max_sp_tree.edges)
+    _, out_edges = min_spanning_tree(
+        graph, max_spanning_tree=(not max_feedback_edges)
+    )
+    return out_edges
