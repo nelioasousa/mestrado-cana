@@ -3,14 +3,15 @@
 import yaml
 from collections.abc import Hashable, Collection, Callable
 from numbers import Number
-from typing import NamedTuple
+from dataclasses import dataclass
 
 
 type KeyParser = Callable[[str], Hashable]
 type ValueParser = Callable[[str], object]
 
 
-class Vertex(NamedTuple):
+@dataclass(slots=True, eq=False)
+class Vertex:
     key: Hashable
     value: object
 
@@ -23,16 +24,11 @@ class Vertex(NamedTuple):
         return False
 
 
-class Edge(NamedTuple):
+@dataclass(slots=True)
+class Edge:
     left: Vertex
     right: Vertex
     weight: Number
-
-    def negate_weight(self) -> None:
-        self.weight = -self.weight
-
-    def invert_weight(self) -> None:
-        self.weight = 1 / self.weight
 
 
 class WeightedUndirectedGraph:
@@ -42,9 +38,13 @@ class WeightedUndirectedGraph:
         self.edges = list(edges)
         # comprehension needed so each list() is unique for each vertice
         self.adjacency = {v: list() for v in vertices}
-        for lft, rgt, weight in self.edges:
-            self.adjacency.setdefault(lft, list()).append((rgt, weight))
-            self.adjacency.setdefault(rgt, list()).append((lft, weight))
+        for edge in self.edges:
+            self.adjacency.setdefault(edge.left, list()).append(
+                (edge.right, edge.weight)
+            )
+            self.adjacency.setdefault(edge.right, list()).append(
+                (edge.left, edge.weight)
+            )
 
     @classmethod
     def from_file(
@@ -74,16 +74,24 @@ class WeightedUndirectedGraph:
 
     def insert_edge(self, edge: Edge) -> None:
         """Insert an edge into the graph."""
-        self.adjacency.setdefault(edge[0], list()).append((edge[1], edge[2]))
-        self.adjacency.setdefault(edge[1], list()).append((edge[0], edge[2]))
+        self.adjacency.setdefault(edge.left, list()).append(
+            (edge.right, edge.weight)
+        )
+        self.adjacency.setdefault(edge.right, list()).append(
+            (edge.left, edge.weight)
+        )
         self.edges.append(edge)
         return None
 
     def insert_edges(self, edges: Collection[Edge]) -> None:
         """Insert many edges into the graph."""
-        for lft, rgt, weight in edges:
-            self.adjacency.setdefault(lft, list()).append((rgt, weight))
-            self.adjacency.setdefault(rgt, list()).append((lft, weight))
+        for edge in edges:
+            self.adjacency.setdefault(edge.left, list()).append(
+                (edge.right, edge.weight)
+            )
+            self.adjacency.setdefault(edge.right, list()).append(
+                (edge.left, edge.weight)
+            )
         self.edges.extend(edges)
         return None
 

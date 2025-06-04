@@ -1,10 +1,12 @@
 """Determine the minimum or maximum Spanning Tree."""
 
 from cana.graphs import Edge, WeightedUndirectedGraph
-from typing import Optional, NamedTuple
+from typing import Optional
+from dataclasses import dataclass
 
 
-class RootedInTreeNode(NamedTuple):
+@dataclass(slots=True)
+class RootedInTreeNode:
     value: object
     parent: Optional["RootedInTreeNode"] = None
     rank: int = 0
@@ -37,12 +39,12 @@ def min_spanning_tree(
 ) -> tuple[list[Edge], list[Edge]] | None:
     nodes = {v: RootedInTreeNode(v) for v in graph.get_vertices()}
     edges = graph.edges
-    edges.sort(key=(lambda e: e[2]), reverse=max_spanning_tree)
+    edges.sort(key=(lambda e: e.weight), reverse=max_spanning_tree)
     mst_edges = []
     out_edges = []
     for i, edge in enumerate(edges):
-        lft_root = nodes[edge[0]].find()
-        rgt_root = nodes[edge[1]].find()
+        lft_root = nodes[edge.left].find()
+        rgt_root = nodes[edge.right].find()
         if lft_root == rgt_root:
             out_edges.append(edge)
             continue
