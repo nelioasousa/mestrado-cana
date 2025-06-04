@@ -30,9 +30,9 @@ class WeightedUndirectedGraph:
         self.edges = list(edges)
         # comprehension needed so each list() is unique for each vertice
         self.adjacency = {v: list() for v in vertices}
-        for lft, rgt, weigth in self.edges:
-            self.adjacency.setdefault(lft, list()).append((rgt, weigth))
-            self.adjacency.setdefault(rgt, list()).append((lft, weigth))
+        for lft, rgt, weight in self.edges:
+            self.adjacency.setdefault(lft, list()).append((rgt, weight))
+            self.adjacency.setdefault(rgt, list()).append((lft, weight))
 
     @classmethod
     def from_file(
@@ -52,8 +52,8 @@ class WeightedUndirectedGraph:
         gf_edges = gf["edges"]
         for lft in gf_edges:
             rgt = gf_edges[lft]["to"]
-            weigth = gf_edges[lft]["weigth"]
-            edges.append((vertices[lft], vertices[rgt], float(weigth)))
+            weight = gf_edges[lft]["weight"]
+            edges.append((vertices[lft], vertices[rgt], float(weight)))
         return cls(vertices.values(), edges)
 
     def insert_edge(self, edge: Edge) -> None:
@@ -65,9 +65,9 @@ class WeightedUndirectedGraph:
 
     def insert_edges(self, edges: Collection[Edge]) -> None:
         """Insert many edges into the graph."""
-        for lft, rgt, weigth in edges:
-            self.adjacency.setdefault(lft, list()).append((rgt, weigth))
-            self.adjacency.setdefault(rgt, list()).append((lft, weigth))
+        for lft, rgt, weight in edges:
+            self.adjacency.setdefault(lft, list()).append((rgt, weight))
+            self.adjacency.setdefault(rgt, list()).append((lft, weight))
         self.edges.extend(edges)
         return None
 
