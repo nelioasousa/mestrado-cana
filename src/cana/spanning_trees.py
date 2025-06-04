@@ -47,6 +47,7 @@ def min_spanning_tree(
             out_edges.append(edge)
             continue
         mst_edges.append(edge)
+        lft_root.union(rgt_root)
         if len(mst_edges) == len(nodes) - 1:
             out_edges.extend(edges[i + 1 :])
             return mst_edges, out_edges
