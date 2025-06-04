@@ -34,10 +34,12 @@ class RootedInTreeNode:
         return self_root
 
 
-def minimum_spanning_tree(graph: WeightedUndirectedGraph):
+def minimum_spanning_tree(
+    graph: WeightedUndirectedGraph, reverse: bool = False
+):
     nodes = {v: RootedInTreeNode() for v in graph.get_vertices()}
-    edges = graph.get_edges()
-    edges.sort(key=(lambda e: e[2]))
+    edges = graph.edges
+    edges.sort(key=(lambda e: e[2]), reverse=reverse)
     mst_edges = []
     for edge in edges:
         lft_root = nodes[edge[0]].find()
@@ -50,3 +52,10 @@ def minimum_spanning_tree(graph: WeightedUndirectedGraph):
     if len(mst_edges) != len(nodes) - 1:
         return None
     return WeightedUndirectedGraph(vertices=nodes.keys(), edges=mst_edges)
+
+
+def get_minimum_feedback_edges(
+    graph: WeightedUndirectedGraph, reverse: bool = False
+):
+    max_sp_tree = minimum_spanning_tree(graph, reverse=(not reverse))
+    return frozenset(graph.edges) - frozenset(max_sp_tree.edges)
