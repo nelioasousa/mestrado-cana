@@ -1,7 +1,7 @@
 """Graphs representation using Python."""
 
-from collections.abc import Hashable, Collection, Callable
 import yaml
+from collections.abc import Hashable, Collection, Callable
 
 
 type Edge = tuple[Vertex, Vertex, float]
@@ -30,7 +30,7 @@ class WeightedUndirectedGraph:
         self.edges = list(edges)
         # comprehension needed so each list() is unique for each vertice
         self.adjacency = {v: list() for v in vertices}
-        for lft, rgt, weigth in edges:
+        for lft, rgt, weigth in self.edges:
             self.adjacency.setdefault(lft, list()).append((rgt, weigth))
             self.adjacency.setdefault(rgt, list()).append((lft, weigth))
 
@@ -49,11 +49,12 @@ class WeightedUndirectedGraph:
             for k, v in gf["vertices"].items()
         }
         edges = []
-        for lft, rgt, w in zip(
-            gf["edges"]["from"], gf["edges"]["to"], gf["edges"]["weight"]
-        ):
-            edges.append((vertices[lft], vertices[rgt], float(w)))
-        return cls(list(vertices.values()), edges)
+        gf_edges = gf["edges"]
+        for lft in gf_edges:
+            rgt = gf_edges[lft]["to"]
+            weigth = gf_edges[lft]["weigth"]
+            edges.append((vertices[lft], vertices[rgt], float(weigth)))
+        return cls(vertices.values(), edges)
 
     def insert_edge(self, edge: Edge) -> None:
         """Insert an edge into the graph."""
