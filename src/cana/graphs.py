@@ -2,17 +2,17 @@
 
 import yaml
 from collections.abc import Hashable, Collection, Callable
+from numbers import Number
+from typing import NamedTuple
 
 
-type Edge = tuple[Vertex, Vertex, float]
 type KeyParser = Callable[[str], Hashable]
 type ValueParser = Callable[[str], object]
 
 
-class Vertex:
-    def __init__(self, key: Hashable, value: object):
-        self.key = key
-        self.value = value
+class Vertex(NamedTuple):
+    key: Hashable
+    value: object
 
     def __hash__(self):
         return hash(self.key)
@@ -21,6 +21,18 @@ class Vertex:
         if isinstance(value, type(self)):
             return self.key == value.key
         return False
+
+
+class Edge(NamedTuple):
+    left: Vertex
+    right: Vertex
+    weight: Number
+
+    def negate_weight(self) -> None:
+        self.weight = -self.weight
+
+    def invert_weight(self) -> None:
+        self.weight = 1 / self.weight
 
 
 class WeightedUndirectedGraph:
