@@ -1,15 +1,4 @@
-import pytest
-from importlib.resources import files as resource_files
-from importlib.resources import as_file
-
 from cana.graphs import WeightedUndirectedGraph
-
-
-@pytest.fixture
-def graph_file_path():
-    resource = resource_files("tests.cana").joinpath("resources/graph.yaml")
-    with as_file(resource) as file_path:
-        yield file_path
 
 
 def test_from_file_constructor(graph_file_path):
