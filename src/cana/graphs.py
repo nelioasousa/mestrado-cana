@@ -66,7 +66,7 @@ class WeightedUndirectedGraph:
             from_ = gf_edges[lft]
             edges.extend(
                 [
-                    (vertices[lft], vertices[rgt], float(w))
+                    Edge(vertices[lft], vertices[rgt], float(w))
                     for rgt, w in zip(from_["to"], from_["weight"])
                 ]
             )
