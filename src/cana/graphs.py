@@ -48,12 +48,16 @@ class WeightedUndirectedGraph:
             k: Vertex(key=key_parser(k), value=value_parser(v))
             for k, v in gf["vertices"].items()
         }
-        edges = []
         gf_edges = gf["edges"]
+        edges = []
         for lft in gf_edges:
-            rgt = gf_edges[lft]["to"]
-            weight = gf_edges[lft]["weight"]
-            edges.append((vertices[lft], vertices[rgt], float(weight)))
+            from_ = gf_edges[lft]
+            edges.extend(
+                [
+                    (vertices[lft], vertices[rgt], float(w))
+                    for rgt, w in zip(from_["to"], from_["weight"])
+                ]
+            )
         return cls(vertices.values(), edges)
 
     def insert_edge(self, edge: Edge) -> None:
