@@ -58,7 +58,7 @@ Dado que $1/2^k$ é a menor probabilidade dentre os símbolos do alfabeto, podem
 
 \[ \frac{1}{2^j} + \frac{1}{2^j} = 2 \cdot \frac{1}{2^j} = \frac{1}{2^{j-1}} \]
 
-Dentre as $2^k$ probabilidades iguais à $1/2^k$, pelo menos uma não pode ser somada as outras, uma vez que assumimos que pelo menos o símbolo $a_1$ tem probabilidade igual à $1/2^k$. Nos resta então $2^k - 1$ probabilidades iguais à $1/2^k$ para serem combinadas entre si duas à duas de modo a obtermos probabilidades da forma $1/2^{k-1}$. Como $2^k - 1$ é ímpar, irá sobrar pelo menos uma probabilidade $1/2^k$ que não pode ser combinada, fazendo com que mais um símbolo tenha probabilidade $1/2^k$, neste caso o símbol $a_2$ que é o segundo com menor probabilidade dentre os símbolos do alfabeto.
+Dentre as $2^k$ probabilidades iguais à $1/2^k$, pelo menos uma não pode ser somada as outras, uma vez que assumimos que pelo menos o símbolo $a_1$ tem probabilidade igual à $1/2^k$. Nos resta então $2^k - 1$ probabilidades iguais à $1/2^k$ para serem combinadas entre si duas à duas de modo a obtermos probabilidades da forma $1/2^{k-1}$. Como $2^k - 1$ é ímpar, irá sobrar pelo menos uma probabilidade $1/2^k$ que não pode ser combinada, fazendo com que pelo menos mais um símbolo tenha probabilidade $1/2^k$, neste caso o símbol $a_2$ que é o segundo com menor probabilidade dentre os símbolos do alfabeto.
 
 Uma vez que $a_2$ também tem probabilidade $1/2^k$, o algoritmo formador da árvore mínima da codificação de Huffman irá combinar $a_1$ e $a_2$ em um novo símbolo $S$ de probabilidade $P(S)=1/2^{k-1}$. Se $P(a_3)$ também for igual a $1/2^k$, teremos a mesma situação novamente, o que irá obrigar $P(a_4)=1/2^k$ e fará com que o algoritmo de Huffman combine $a_3$ e $a_4$, e assim por diante até serem esgotados os símbolos de probabilidade $1/2^k$. Uma vez que o algoritmo de Huffman combinar todos os símbolos de probabilidade $1/2^k$, teremos um novo alfabeto $\{ a'_1, a'_2, \ldots, a'_{n-p} \}$ (onde $p$ é o número de combinações que foram feitas) cujas probabilidades também são potências de $2$ e cuja menor potência corresponde ao símbolo $a'_1$ com o valor de $1/2^{k-1}$. As mesmas ideias podem ser aplicadas à esse alfabeto, o que obriga $a'_2$ a também ter probabilidade $1/2^{k-1}$ e faz com que o algoritmo de Huffman combine $a'_1$ e $a'_2$. Portanto, por indução, o algoritmo de Huffman irá sempre combinar símbolos de probabilidades iguais, o que significa que todo os nós com filhos terão filhos com a mesma probabilidade. $\blacksquare$
 
@@ -73,6 +73,15 @@ Agora, vamos provar por indução que os símbolos de profundidade $k$ possuem p
 Portanto, segue por indução que símbolos cuja probabilidade são da forma $1/2^{k_i}$ possuem profundidade $k$ na árvore de codificação mínima de Huffman se e somente se tiverem probabilidade $1/2^k$. Essa propriedade é equivalente a equação de tamanho da codificação:
 
 \[ \sum_{i=1}^{n} mp_i \log_{2}{\frac{1}{p_i}} \]
+
+\subsection*{(b)}
+
+A fórmula é máxima quando a distribuição é uniforme. A fórmula é mínima quando apenas um valor concentra toda a probabilidade, ou seja, tem probabilidade $1$ enquanto os outros valores tem prababilidade $0$.
+
+
+\section*{Q2}
+
+Modificar o algoritmo de Kruskal para obter a Árvore Geradora Máxima em vez da mínima (inverter os pesos ou ordenar em reverso) e retornar as arestas em $E$ que não fazem parte desta árvora. Solução no arquivo \textit{/src/cana/feedback.py}.
 
 
 \section*{Q3}
@@ -109,5 +118,26 @@ Novamente, para um símbolo ter uma codificação de comprimento $1$, este símb
 \[ \{a_n, S\} \quad \textrm{onde} \quad F(a_n) < 1/3 \quad \textrm{e} \quad F(S) > 2/3 \]
 
 Digamos que $S$ foi formado pela combinação dos símbolos $K_1$ e $K_2$. Para tal, esses símbolos devem ser os dois símbolos com as menores frequências no conjunto $\{K_1, K_2, a_n\}$. Como $F(S)>2/3$, um dos símbolos $K_1$ ou $K_2$ deve ter frequência maior que $1/3$, o que é um absurdo, pois $K_1$ e $K_2$ devem ter frequências menores ou iguais à frequência do símbolo $a_n$. $\blacksquare$
+
+
+\section*{Q4}
+
+Vamos assumir que $G$ é conectado. A estratégia é remover todos os vértices em $U$ do grafo $G$, aplicar o algoritmo de Kruskal para determinar a árvore geradora mínima neste novo grafo reduzido e depois adicionar os nós removidos usando as arestas incidentes de menor custo para cada um.
+
+Se qualquer um dos vértices em $U$ for um nó essencial para a conectividade do grafo, ou seja, ao remover o nó o grafo que antes era totalmente conectado se torna 2 ou mais componentes conectadas, não é possível que tal nó seja uma folha em qualquer que seja a árvore geradora construída. É possível identificar tais situações analisando o resultado do algorítmo de Kruskal: se o número de aresta retornado por Kruskal for menor que $\lvert V - U \rvert - 1$, então pelo menos um dos vértices removidos era essencial para a conectividade do grafo e o resultado final não é alcançável.
+
+
+\section*{Q5}
+
+Basta utilizar a mesma estrutura de dados de árvores enraizadas para conjuntos disjuntos utilizada no algoritmo de Kruskal. Utilizamos a união por rank para unir árvores com base no conjunto de restrições de igualdade. Uma vez feita todas as uniões e esgotado os pares de igualdades, basta verificar a validade das restrições de desigualdade: para uma desigualdade ser válida, as variáveis da desigualdade devem estar em árvores enraizadas distintas, caso contrário, a desigualdade é inválida e as restrições não são satisfatível.
+
+
+\section*{Q6}
+
+Atender os clientes em ordem crescente do tempo para serem servidos. Ou seja, começar com os clientes que podem ser atendidos mais rapidamente. Algoritmos de ordenação eficientes tem complexidade $O(n\log{n})$. Se os tempos forem pequenos ou se forem discretos, a ordenação pode ser feita em $O(n)$. Essa estratégia é ótima uma vez que o tempo de espera total é dado pela fórmula:
+
+\[ T = n \cdot t_1 + (n-1) \cdot t_2 + \ldots + (n-k+1) \cdot t_k + \ldots + 2 \cdot t_{n-1} + 1 \cdot t_n \]
+
+Onde $t_1$ é o tempo de serviço do primeiro cliente atendido, $t_k$ é o tempo de serviço do k-ésimo cliente atendido e $t_n$ é o tempo de serviço do último cliente atendido. Como os clientes que são atendidos primeiro possuem um multiplicador maior, para minimizar a soma basta colocar os clientes que são atendidos mais rapidamente no começo da fila.
 
 \end{document}
