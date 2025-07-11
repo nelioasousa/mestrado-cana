@@ -64,7 +64,7 @@ Ou seja:
 
 \[ k^{'} \geq g(n)^{-1} = \frac{1-c}{1-c^{n+1}} \]
 
-Para $c<1$ temos $c^b \leq c$ quando $b>0$ o que implica em $1-c \leq 1-c^b$. Portanto $\frac{1-c}{1-c^{n+1}} \leq 1$ quando $n \geq 0$. Dessa forma, podemos escolher qualquer valor de $k^{'} \geq 1$ e escolher $n^{'}_{0} \geq 0$ para provar $g(n) = O(1)$.
+Para $c<1$ temos $c^b \leq c$ quando $b>0$ o que implica em $1-c \leq 1-c^b$. Portanto $\frac{1-c}{1-c^{n+1}} \leq 1$ quando $n \geq 0$. Dessa forma, podemos escolher qualquer valor de $k^{'} \geq 1$ e escolher $n^{'}_{0} \geq 0$ para provar $g(n) = \Omega(1)$.
 
 
 Dessa forma, $g(n)=\Theta(1)$ quando $c < 1$. $\blacksquare$
@@ -163,7 +163,7 @@ Pontanto, nosso intervalo de procura é $c \in (\frac{1}{2},1)$, de modo que:
 
 \[ F_n \leq 2^{cn} \]
 
-Usando as mesmas ideias da alternativa anterior, vamos supor que $c$ é conhecido e que queremos provar $F_n \leq 2^{cn}$ usando indução. Vamos deixar o caso base para o fim e considerar logo o passo indutiva: queremos partir de $F_n \leq 2^{cn}$ e $F_{n-1} \leq 2^{c(n-1)}$ (hipótese indutiva) e mostrar que $F_{n+1} \leq 2^{c(n+1)}$. O começo dessa prova parte da decomposição de $F_{n+1}$:
+Usando as mesmas ideias da alternativa anterior, vamos supor que $c$ é conhecido e que queremos provar $F_n \leq 2^{cn}$ usando indução. Vamos deixar o caso base para o fim e considerar logo o passo indutivo: queremos partir de $F_n \leq 2^{cn}$ e $F_{n-1} \leq 2^{c(n-1)}$ (hipótese indutiva) e mostrar que $F_{n+1} \leq 2^{c(n+1)}$. O começo dessa prova parte da decomposição de $F_{n+1}$:
 
 \[ F_{n+1} = F_n + F_{n-1} \leq 2^{cn} + 2^{c(n-1)} = 2^{cn} \cdot \left( 1 + \frac{1}{2^c} \right) \]
 
